@@ -1,9 +1,19 @@
 package de.sambalmueslie.phonebook.service;
 
+import java.util.Arrays;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import de.sambalmueslie.phonebook.service.common.ManagerProvider;
+
 /**
  * Starter for the service.
  */
 public final class Starter {
+
+	private static Logger logger = LogManager.getLogger(Starter.class);
+
 	/**
 	 * Main.
 	 *
@@ -13,13 +23,14 @@ public final class Starter {
 	 *             on error
 	 */
 	public static void main(String[] args) throws Exception {
-		new PhonebookApplication().run(args);
+		new Starter("server", "config.yml");
 	}
 
-	/**
-	 * Constructor.
-	 */
-	private Starter() {
-		// empty by decision
+	public Starter(String... args) throws Exception {
+		logger.info("Start phonebook application with " + Arrays.toString(args));
+
+		final ManagerProvider provider = new ManagerProvider();
+		final PhonebookApplication application = new PhonebookApplication(provider);
+		application.run(args);
 	}
 }

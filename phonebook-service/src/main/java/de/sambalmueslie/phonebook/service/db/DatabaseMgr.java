@@ -5,9 +5,7 @@ import org.hibernate.SessionFactory;
 import de.sambalmueslie.phonebook.service.common.Manager;
 import de.sambalmueslie.phonebook.service.common.ManagerProvider;
 import de.sambalmueslie.phonebook.service.config_mgt.PhonebookConfiguration;
-import de.sambalmueslie.phonebook.service.data.Phonebook;
-import de.sambalmueslie.phonebook.service.data.PEntry;
-import de.sambalmueslie.phonebook.service.data.SearchResult;
+import de.sambalmueslie.phonebook.service.data.*;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -37,7 +35,7 @@ public class DatabaseMgr implements Manager {
 	}
 
 	private void setupHibernateBundle() {
-		hibernate = new HibernateBundle<PhonebookConfiguration>(PEntry.class, Phonebook.class, SearchResult.class) {
+		hibernate = new HibernateBundle<PhonebookConfiguration>(PAttribute.class, PAttributeDefinition.class, PEntry.class, Phonebook.class, PValidator.class) {
 			@Override
 			public PooledDataSourceFactory getDataSourceFactory(PhonebookConfiguration config) {
 				return config.getDataSourceFactory();

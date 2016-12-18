@@ -13,6 +13,10 @@ import io.dropwizard.setup.Environment;
 
 public class DatabaseMgr implements Manager {
 
+	public DAOProvider getDaoProvider() {
+		return daoProvider;
+	}
+
 	public SessionFactory getSessionFactory() {
 		return hibernate == null ? null : hibernate.getSessionFactory();
 	}
@@ -25,6 +29,9 @@ public class DatabaseMgr implements Manager {
 
 	@Override
 	public void start(ManagerProvider provider, PhonebookConfiguration configuration, Environment environment) {
+		final SessionFactory sessionFactory = hibernate.getSessionFactory();
+		daoProvider = new DAOProvider(sessionFactory);
+
 		environment.healthChecks().register("dbconnection", new DbHealthCheck(hibernate));
 	}
 
@@ -44,5 +51,6 @@ public class DatabaseMgr implements Manager {
 
 	}
 
+	private DAOProvider daoProvider;
 	private HibernateBundle<PhonebookConfiguration> hibernate;
 }

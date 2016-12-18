@@ -24,5 +24,10 @@
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-hibernate</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>de.sambalmueslie</groupId>
+			<artifactId>phonebook-interface</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

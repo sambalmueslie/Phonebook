@@ -71,5 +71,6 @@
 	<modules>
 		<module>phonebook-service</module>
 		<module>phonebook-client</module>
+		<module>phonebook-interface</module>
 	</modules>
 </project>

@@ -5,10 +5,10 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "entry", schema = "phonebook")
+@Table(name = "entry")
 public class PEntry {
 
-	@OneToMany(mappedBy = "attributes", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
 	private List<PAttribute> attributes;
 
 	@Id

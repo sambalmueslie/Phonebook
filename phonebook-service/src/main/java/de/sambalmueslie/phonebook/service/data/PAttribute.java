@@ -3,7 +3,7 @@ package de.sambalmueslie.phonebook.service.data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "attribute", schema = "phonebook")
+@Table(name = "attribute")
 public class PAttribute {
 	@ManyToOne
 	@JoinColumn(name = "definition", nullable = false)

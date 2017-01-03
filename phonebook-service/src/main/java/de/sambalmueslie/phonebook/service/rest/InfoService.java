@@ -12,14 +12,16 @@ import javax.ws.rs.core.MediaType;
 
 import com.codahale.metrics.annotation.Timed;
 
+import de.sambalmueslie.phonebook.rest.Constants;
 import de.sambalmueslie.phonebook.rest.PhonebookInfo;
+import de.sambalmueslie.phonebook.rest.rest.RestInfoService;
 import de.sambalmueslie.phonebook.service.data.Phonebook;
 import de.sambalmueslie.phonebook.service.db.DAOProvider;
 import io.dropwizard.hibernate.UnitOfWork;
 
-@Path("/phonebook")
+@Path(InfoService.INFO_PATH)
 @Produces(MediaType.APPLICATION_JSON)
-public class InfoService implements RestService {
+public class InfoService implements RestService, RestInfoService {
 
 	/**
 	 * Constructor.
@@ -30,26 +32,29 @@ public class InfoService implements RestService {
 		this.daoProvider = daoProvider;
 	}
 
+	@Override
 	@GET
-	@Path("/getbyid")
+	@Path(PATH_GET_BY_ID)
 	@Timed
 	@UnitOfWork
-	public PhonebookInfo getPhonebook(@QueryParam("id") long id) {
+	public PhonebookInfo getPhonebook(@QueryParam(Constants.PARAM_ID) long id) {
 		final Phonebook phonebook = daoProvider.getPhonebookDAO().findById(id);
 		return map(phonebook);
 	}
 
+	@Override
 	@GET
-	@Path("/getbyname")
+	@Path(PATH_GET_BY_NAME)
 	@Timed
 	@UnitOfWork
-	public PhonebookInfo getPhonebook(@QueryParam("name") String name) {
+	public PhonebookInfo getPhonebook(@QueryParam(Constants.PARAM_NAME) String name) {
 		final Phonebook phonebook = daoProvider.getPhonebookDAO().findByName(name);
 		return map(phonebook);
 	}
 
+	@Override
 	@GET
-	@Path("/phonebooks")
+	@Path(PATH_GET_ALL)
 	@Timed
 	@UnitOfWork
 	public List<PhonebookInfo> getPhonebooks() {

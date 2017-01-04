@@ -7,15 +7,15 @@ import de.sambalmueslie.phonebook.rest.Constants;
 import de.sambalmueslie.phonebook.rest.PhonebookLevel;
 import de.sambalmueslie.phonebook.rest.rest.RestAdminService;
 
-public class AdminClient extends BaseRestClient implements RestAdminService {
+class AdminClient extends BaseRestClient implements RestAdminService {
 	/**
 	 * Constructor.
 	 *
-	 * @param serverUrl
-	 *            {@link #serverUrl}
+	 * @param connector
+	 *            the {@link RestConnector}
 	 */
-	public AdminClient(String serverUrl) {
-		super(serverUrl);
+	AdminClient(RestConnector connector) {
+		super(connector);
 	}
 
 	@Override

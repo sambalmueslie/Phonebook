@@ -1,6 +1,10 @@
 package de.sambalmueslie.phonebook.rest;
 
 public class PhonebookInfo {
+	public PhonebookInfo() {
+		// used for JSON serialisation
+	}
+
 	public PhonebookInfo(long id, String name, PhonebookLevel level) {
 		this.id = id;
 		this.name = name;
@@ -19,7 +23,7 @@ public class PhonebookInfo {
 		return name;
 	}
 
-	private final long id;
-	private final PhonebookLevel level;
-	private final String name;
+	private long id;
+	private PhonebookLevel level;
+	private String name;
 }

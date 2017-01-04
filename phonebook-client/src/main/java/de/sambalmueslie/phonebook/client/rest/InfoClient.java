@@ -10,16 +10,16 @@ import de.sambalmueslie.phonebook.rest.Constants;
 import de.sambalmueslie.phonebook.rest.PhonebookInfo;
 import de.sambalmueslie.phonebook.rest.rest.RestInfoService;
 
-public class InfoClient extends BaseRestClient implements RestInfoService {
+class InfoClient extends BaseRestClient implements RestInfoService {
 
 	/**
 	 * Constructor.
 	 *
-	 * @param serverUrl
-	 *            {@link #serverUrl}
+	 * @param connector
+	 *            the {@link RestConnector}
 	 */
-	public InfoClient(String serverUrl) {
-		super(serverUrl);
+	InfoClient(RestConnector connector) {
+		super(connector);
 	}
 
 	@Override

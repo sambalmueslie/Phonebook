@@ -2,6 +2,7 @@ package de.sambalmueslie.phonebook.service.rest;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.GET;
@@ -66,7 +67,9 @@ public class InfoService implements RestService, RestInfoService {
 
 	private PhonebookInfo map(Phonebook phonebook) {
 		if (phonebook == null) return null;
-		return new PhonebookInfo(phonebook.getId(), phonebook.getName(), phonebook.getLevel());
+
+		final Set<String> attributes = daoProvider.getAttributeDefinitionDAO().getAll().stream().map(ad -> ad.getName()).collect(Collectors.toSet());
+		return new PhonebookInfo(phonebook.getId(), phonebook.getName(), phonebook.getLevel(), attributes);
 	}
 
 	private final DAOProvider daoProvider;

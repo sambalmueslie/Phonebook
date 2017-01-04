@@ -4,8 +4,12 @@ import java.util.*;
 
 import de.sambalmueslie.phonebook.client.rest.RestService;
 import de.sambalmueslie.phonebook.rest.PhonebookInfo;
-import de.sambalmueslie.phonebook.rest.PhonebookLevel;
+import de.sambalmueslie.phonebook.rest.request.CreateAttributeDefinitionRequest;
+import de.sambalmueslie.phonebook.rest.request.CreatePhonebookRequest;
+import de.sambalmueslie.phonebook.rest.request.CreateValidatorRequest;
+import de.sambalmueslie.phonebook.rest.response.CreateResponse;
 import de.sambalmueslie.phonebook.rest.rest.RestAdminService;
+import de.sambalmueslie.phonebook.rest.rest.RestInfoService;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -23,7 +27,24 @@ public class PhonebooksPanel extends BorderPane {
 		setupData();
 	}
 
-	private void createNewPhonebook() {
+	private void createAttribute() {
+		Platform.runLater(() -> {
+			final TextInputDialog dialog = new TextInputDialog("Number");
+			dialog.setTitle("Create Attribute");
+			dialog.setHeaderText("Attribute Creation");
+			dialog.setContentText("Attribute:");
+
+			final Optional<String> result = dialog.showAndWait();
+			if (!result.isPresent()) return;
+			final String name = result.get();
+
+			final RestAdminService adminService = restService.getAdminService();
+
+			adminService.createAttributeDefinition(new CreateAttributeDefinitionRequest(name));
+		});
+	}
+
+	private void createPhonebook() {
 		Platform.runLater(() -> {
 
 			final TextInputDialog dialog = new TextInputDialog("Demo");
@@ -36,10 +57,29 @@ public class PhonebooksPanel extends BorderPane {
 			final String name = result.get();
 			final RestAdminService adminService = restService.getAdminService();
 
-			final Long phonebookId = adminService.createPhonebook(name, PhonebookLevel.GLOBAL);
-			if (phonebookId == null) return;
-			final PhonebookInfo info = restService.getInfoService().getPhonebook(phonebookId);
+			final CreateResponse response = adminService.createPhonebook(new CreatePhonebookRequest(name));
+			if (response == null || response.getId() == null) return;
+
+			final RestInfoService infoService = restService.getInfoService();
+			final PhonebookInfo info = infoService.getPhonebook(response.getId());
 			update(info);
+		});
+	}
+
+	private void createValidator() {
+		Platform.runLater(() -> {
+			final TextInputDialog dialog = new TextInputDialog(".*");
+			dialog.setTitle("Create Validator");
+			dialog.setHeaderText("Validator Creation");
+			dialog.setContentText("Regular Expression:");
+
+			final Optional<String> result = dialog.showAndWait();
+			if (!result.isPresent()) return;
+			final String expression = result.get();
+
+			final RestAdminService adminService = restService.getAdminService();
+
+			adminService.createValidator(new CreateValidatorRequest(expression));
 		});
 	}
 
@@ -60,9 +100,16 @@ public class PhonebooksPanel extends BorderPane {
 	private void setupUI() {
 		final HBox adminPanel = new HBox(10);
 		adminPanel.setPadding(new Insets(5));
-		final Button addBtn = new Button("Create Phonebook");
-		addBtn.setOnAction(e -> createNewPhonebook());
-		adminPanel.getChildren().add(addBtn);
+		final Button addPhonebookBtn = new Button("Create Phonebook");
+		addPhonebookBtn.setOnAction(e -> createPhonebook());
+
+		final Button addValidatorBtn = new Button("Create Validator");
+		addValidatorBtn.setOnAction(e -> createValidator());
+
+		final Button addAttributeBtn = new Button("Create Attribute");
+		addAttributeBtn.setOnAction(e -> createAttribute());
+
+		adminPanel.getChildren().addAll(addPhonebookBtn, addValidatorBtn, addAttributeBtn);
 		setTop(adminPanel);
 
 		phonebooks = new TabPane();

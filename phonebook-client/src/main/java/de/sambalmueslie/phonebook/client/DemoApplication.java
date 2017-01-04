@@ -13,7 +13,7 @@ public class DemoApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		final String serverUrl = "http://localhost:8080";
-		final PhonebookPanel phonebook = new PhonebookPanel(serverUrl);
+		final PhonebooksPanel phonebook = new PhonebooksPanel(serverUrl);
 		primaryStage.setScene(new Scene(phonebook, 800, 600));
 		primaryStage.show();
 	}

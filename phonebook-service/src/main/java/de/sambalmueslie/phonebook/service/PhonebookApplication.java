@@ -10,12 +10,9 @@ public class PhonebookApplication extends Application<PhonebookConfiguration> {
 
 	/**
 	 * Constructor.
-	 *
-	 * @param managerProvider
-	 *            {@link #managerProvider}
 	 */
-	public PhonebookApplication(ManagerProvider managerProvider) {
-		this.managerProvider = managerProvider;
+	public PhonebookApplication() {
+		managerProvider = new ManagerProvider();
 	}
 
 	@Override

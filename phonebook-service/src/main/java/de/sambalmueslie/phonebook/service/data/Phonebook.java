@@ -19,6 +19,10 @@ public class Phonebook {
 		this.level = level;
 	}
 
+	public void addEntry(PEntry entry) {
+		entries.add(entry);
+	}
+
 	public List<PEntry> getEntries() {
 		return entries;
 	}

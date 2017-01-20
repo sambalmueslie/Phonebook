@@ -4,7 +4,9 @@ import java.util.*;
 
 import de.sambalmueslie.phonebook.client.rest.RestService;
 import de.sambalmueslie.phonebook.rest.PhonebookInfo;
+import de.sambalmueslie.phonebook.rest.PhonebookLevel;
 import de.sambalmueslie.phonebook.rest.request.CreateAttributeDefinitionRequest;
+import de.sambalmueslie.phonebook.rest.request.CreateEntryRequest;
 import de.sambalmueslie.phonebook.rest.request.CreatePhonebookRequest;
 import de.sambalmueslie.phonebook.rest.request.CreateValidatorRequest;
 import de.sambalmueslie.phonebook.rest.response.CreateResponse;
@@ -66,6 +68,35 @@ public class PhonebooksPanel extends BorderPane {
 		});
 	}
 
+	private void createSample() {
+		Platform.runLater(() -> {
+			final RestAdminService adminService = restService.getAdminService();
+			// create phonebook
+			CreateResponse response = adminService.createPhonebook(new CreatePhonebookRequest("Sample Demo", PhonebookLevel.GLOBAL));
+			final Long phonebookId = response.getId();
+
+			// create some attributes
+			response = adminService.createValidator(new CreateValidatorRequest("[\\w]+"));
+			final Long nameValidator = response.getId();
+
+			response = adminService.createValidator(new CreateValidatorRequest("[+\\d]+"));
+			final Long numberValidator = response.getId();
+
+			adminService.createAttributeDefinition(new CreateAttributeDefinitionRequest("Name", nameValidator));
+			adminService.createAttributeDefinition(new CreateAttributeDefinitionRequest("Number", numberValidator));
+
+			// create some sample entries
+			final CreateEntryRequest request = new CreateEntryRequest(phonebookId, "Max Mustermann");
+			request.set("Name", "Max Mustermann");
+			request.set("Number", "+496363774425");
+			adminService.createEntry(request);
+
+			final RestInfoService infoService = restService.getInfoService();
+			final PhonebookInfo info = infoService.getPhonebook(phonebookId);
+			update(info);
+		});
+	}
+
 	private void createValidator() {
 		Platform.runLater(() -> {
 			final TextInputDialog dialog = new TextInputDialog(".*");
@@ -109,7 +140,10 @@ public class PhonebooksPanel extends BorderPane {
 		final Button addAttributeBtn = new Button("Create Attribute");
 		addAttributeBtn.setOnAction(e -> createAttribute());
 
-		adminPanel.getChildren().addAll(addPhonebookBtn, addValidatorBtn, addAttributeBtn);
+		final Button createSampleBtn = new Button("Create Sample");
+		createSampleBtn.setOnAction(e -> createSample());
+
+		adminPanel.getChildren().addAll(addPhonebookBtn, addValidatorBtn, addAttributeBtn, createSampleBtn);
 		setTop(adminPanel);
 
 		phonebooks = new TabPane();

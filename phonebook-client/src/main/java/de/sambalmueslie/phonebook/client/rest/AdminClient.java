@@ -6,6 +6,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 import de.sambalmueslie.phonebook.rest.request.CreateAttributeDefinitionRequest;
+import de.sambalmueslie.phonebook.rest.request.CreateEntryRequest;
 import de.sambalmueslie.phonebook.rest.request.CreatePhonebookRequest;
 import de.sambalmueslie.phonebook.rest.request.CreateValidatorRequest;
 import de.sambalmueslie.phonebook.rest.response.CreateResponse;
@@ -25,6 +26,11 @@ class AdminClient extends BaseRestClient implements RestAdminService {
 	@Override
 	public CreateResponse createAttributeDefinition(CreateAttributeDefinitionRequest request) {
 		return create(request, RestAdminService.PATH_ATTRIBUTE_DEFINITION_CREATE);
+	}
+
+	@Override
+	public CreateResponse createEntry(CreateEntryRequest request) {
+		return create(request, RestAdminService.PATH_ENTRY_CREATE);
 	}
 
 	@Override

@@ -5,8 +5,6 @@ import java.util.Arrays;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import de.sambalmueslie.phonebook.service.common.ManagerProvider;
-
 /**
  * Starter for the service.
  */
@@ -28,9 +26,7 @@ public final class Starter {
 
 	public Starter(String... args) throws Exception {
 		logger.info("Start phonebook application with " + Arrays.toString(args));
-
-		final ManagerProvider provider = new ManagerProvider();
-		final PhonebookApplication application = new PhonebookApplication(provider);
+		final PhonebookApplication application = new PhonebookApplication();
 		application.run(args);
 	}
 }

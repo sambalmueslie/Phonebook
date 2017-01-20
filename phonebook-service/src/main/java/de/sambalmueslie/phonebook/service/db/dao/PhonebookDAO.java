@@ -29,4 +29,8 @@ public class PhonebookDAO extends AbstractDAO<Phonebook> {
 	public List<Phonebook> getAll() {
 		return list(criteria());
 	}
+
+	public void update(Phonebook phonebook) {
+		persist(phonebook);
+	}
 }
